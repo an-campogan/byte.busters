@@ -86,7 +86,6 @@ h2 {
     outline-offset: 2px;
 }
 
-/* Header */
 .site-header {
     background: var(--cream);
     border-bottom: 1px solid var(--line);
@@ -181,7 +180,6 @@ h2 {
     font-size: .85rem;
 }
 
-/* Buttons & Forms */
 .btn {
     display: inline-block;
     border: 0;
@@ -289,7 +287,6 @@ label.check input {
     gap: 14px;
 }
 
-/* Hero & Blocks */
 .hero {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
@@ -401,7 +398,6 @@ label.check input {
     font-size: 2rem;
 }
 
-/* Grid & Cards */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -499,7 +495,7 @@ label.check input {
     padding: 4px 6px;
 }
 
-/* Catalog */
+
 .catalog {
     display: grid;
     grid-template-columns: 260px 1fr;
@@ -549,7 +545,6 @@ label.check input {
     justify-items: center;
 }
 
-/* Product */
 .back {
     display: inline-block;
     margin-bottom: 16px;
@@ -589,7 +584,6 @@ label.check input {
     margin: 18px 0;
 }
 
-/* Stepper & Cart */
 .stepper {
     display: inline-flex;
     border: 1px solid #d8ccb6;
@@ -698,7 +692,6 @@ label.check input {
     padding-top: 12px;
 }
 
-/* Account & Admin */
 .two-col {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
@@ -829,7 +822,6 @@ th {
     margin-top: 20px;
 }
 
-/* Receipt Overlay */
 .overlay {
     position: fixed;
     inset: 0;
@@ -1015,7 +1007,6 @@ th {
     }
 }
 
-/* Load AFTER style.css */
 :root {
     --sage: #8e947c;
     --butter: #cbc8bb;
@@ -1031,7 +1022,6 @@ th {
     --r: 16px;
 }
 
-/* Full-width layout */
 .wrap {
     max-width: none;
     padding: 0 var(--g);
@@ -1049,7 +1039,6 @@ th {
     grid-template-columns: 280px 1fr;
 }
 
-/* Hero */
 .hero {
     margin: 0;
     border-radius: 24px;
@@ -1072,7 +1061,6 @@ th {
     box-shadow: 14px 14px 0 rgba(0, 0, 0, .25);
 }
 
-/* Rounded corners */
 .card,
 .order,
 .cart-list {
@@ -1112,7 +1100,6 @@ textarea,
     border-radius: 999px;
 }
 
-/* Logo */
 .logo {
     display: inline-flex;
     align-items: center;
@@ -1129,7 +1116,6 @@ textarea,
     font-style: normal;
 }
 
-/* Cart icon + number badge */
 .bag {
     position: relative;
     display: inline-grid;
@@ -1163,7 +1149,6 @@ textarea,
     border: 2px solid var(--cream);
 }
 
-/* Login / Register */
 .auth {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1181,7 +1166,11 @@ textarea,
 }
 
 .auth-art {
-    background: linear-gradient(160deg, #2f2d2b, #473629);
+    background: linear-gradient(160deg, rgba(47, 45, 43, 0.85), rgba(71, 54, 41, 0.9)),  url('login-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     color: #fff;
     padding: 36px;
     display: flex;

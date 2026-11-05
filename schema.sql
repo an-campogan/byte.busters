@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS byte_busters CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE byte_busters;
 
--- Re-importing wipes these tables so old versions can't clash
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS order_items, orders, cart_items, products, users;
 SET FOREIGN_KEY_CHECKS = 1;
@@ -64,7 +63,6 @@ CREATE TABLE order_items (
                              FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
 );
 
--- Sample products (placeholder prices, edit freely)
 INSERT INTO products (name, category, description, price, stock) VALUES
                                                                      ('1 kΩ Resistor Pack', 'Passives', 'Pack of 10 carbon film resistors, 1/4 W, 5% tolerance.', 35, 200),
                                                                      ('220 Ω Resistor Pack', 'Passives', 'Pack of 10 carbon film resistors, 1/4 W. The usual pick for LEDs on 5 V.', 35, 200),
@@ -81,6 +79,5 @@ INSERT INTO products (name, category, description, price, stock) VALUES
                                                                      ('LED Traffic Light Kit', 'Kits', 'Three LEDs, resistors, breadboard and wiring guide.', 380, 20),
                                                                      ('Temperature Monitor Kit', 'Kits', 'Arduino-compatible kit with sensor, LCD and code.', 890, 12);
 
--- Fixed admin account: admin@bytebusters.local / BB-admin-2026 (change the password after your first login)
 INSERT INTO users (name, email, password_hash, role) VALUES
     ('Admin', 'admin@bytebusters.local', '$2a$10$Rc3HxugsF8xXoAN7.GwoZeXI1RpjZVaMxqhKY2EZmuUfDfUpEf5cO', 'admin');

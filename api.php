@@ -1,5 +1,4 @@
 <?php
-// JSON endpoints used by assets/app.js: api.php?a=cart and api.php?a=checkout
 require __DIR__ . '/config.php';
 header('Content-Type: application/json');
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') json_out(['ok' => false, 'error' => 'POST only.'], 405);
@@ -44,7 +43,6 @@ function api_checkout($pdo, $in) {
     $method = ($in['method'] ?? 'delivery') === 'pickup' ? 'pickup' : 'delivery';
     $buyNow = $in['buy_now'] ?? null;
 
-    // Items and prices always come from the database, never from the browser
     if ($buyNow) {
         $s = $pdo->prepare('SELECT id, name, price, stock FROM products WHERE id = ?');
         $s->execute([(int)($buyNow['product_id'] ?? 0)]);

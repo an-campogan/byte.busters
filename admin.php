@@ -5,7 +5,6 @@ $msg = ''; $err = '';
 
 function save_upload($f) {
     if (!isset($f) || $f['error'] === UPLOAD_ERR_NO_FILE) return null;
-    if ($f['error'] !== UPLOAD_ERR_OK || $f['size'] > 2 * 1024 * 1024) throw new Exception('The image failed to upload or is over 2 MB.');
     $mime = (new finfo(FILEINFO_MIME_TYPE))->file($f['tmp_name']);
     $ext = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'][$mime] ?? null;
     if (!$ext) throw new Exception('Use a JPG, PNG or WebP image.');

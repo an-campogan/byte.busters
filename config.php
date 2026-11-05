@@ -7,14 +7,14 @@ session_start();
 const DB_HOST = 'localhost', DB_NAME = 'byte_busters', DB_USER = 'root', DB_PASS = '';
 const CATEGORIES = ['Microcontrollers', 'Sensors', 'Passives', 'Prototyping', 'Kits'];
 const PICKUP_POINT = 'Byte Busters pickup counter, Davao City';
-const DISCOUNT_MIN = 1000;   // orders at or above this get the discount
-const DISCOUNT_RATE = 0.05;  // 5%
+const DISCOUNT_MIN = 1000;
+const DISCOUNT_RATE = 0.05;
 
 try {
     $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4', DB_USER, DB_PASS, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
     ]);
 } catch (PDOException $ex) {
     http_response_code(500);
@@ -63,7 +63,7 @@ function cart_count($pdo) {
 }
 function totals($subtotal) {
     $d = $subtotal >= DISCOUNT_MIN ? round($subtotal * DISCOUNT_RATE, 2) : 0;
-    return [(float)$subtotal, (float)$d, (float)$subtotal - $d];
+    return [(float)$subtotal, (float)$d, (float)($subtotal - $d)];
 }
 function cart_summary($pdo, $uid) {
     $items = []; $sub = 0; $count = 0;
@@ -78,8 +78,8 @@ function cart_summary($pdo, $uid) {
 
 function product_img($p, $cls = '') {
     $inner = $p['image']
-        ? '<img src="' . 'uploads/' . e($p['image']) . '" alt="' . e($p['name']) . '">'
-        : '<span class="ph">' . e(mb_strtoupper(mb_substr($p['name'], 0, 2))) . '</span>';
+            ? '<img src="' . 'uploads/' . e($p['image']) . '" alt="' . e($p['name']) . '">'
+            : '<span class="ph">' . e(mb_strtoupper(mb_substr($p['name'], 0, 2))) . '</span>';
     return '<div class="thumb t-' . (crc32($p['category']) % 4) . ' ' . $cls . '">' . $inner . '</div>';
 }
 function product_card($p) {

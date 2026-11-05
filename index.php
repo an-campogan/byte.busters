@@ -1,11 +1,9 @@
 <?php
-// All public pages live here: index.php?page=home|products|product|cart|account|login|register|logout
 require __DIR__ . '/config.php';
 $page = $_GET['page'] ?? 'home';
 if (!in_array($page, ['home', 'products', 'product', 'cart', 'account', 'login', 'register', 'logout'], true)) $page = 'home';
 ('page_' . $page)($pdo);
 
-/* ---------- Home ---------- */
 function page_home($pdo) {
     $popular = $pdo->query('SELECT p.* FROM products p WHERE p.stock > 0
         ORDER BY (SELECT COALESCE(SUM(qty),0) FROM order_items WHERE product_id = p.id) DESC, p.id DESC LIMIT 4')->fetchAll();
@@ -38,7 +36,6 @@ function page_home($pdo) {
     </section>
     <?php page_footer(); }
 
-/* ---------- Catalog ---------- */
 function page_products($pdo) {
     $cat = $_GET['cat'] ?? ''; $q = trim($_GET['q'] ?? ''); $max = (int)($_GET['max'] ?? 0);
     $sort = $_GET['sort'] ?? 'featured'; $inStock = isset($_GET['stock']);
@@ -94,7 +91,6 @@ function page_products($pdo) {
     </div>
     <?php page_footer(); }
 
-/* ---------- Product details ---------- */
 function page_product($pdo) {
     $s = $pdo->prepare('SELECT * FROM products WHERE id = ?');
     $s->execute([(int)($_GET['id'] ?? 0)]);
@@ -131,7 +127,6 @@ function page_product($pdo) {
     </section>
     <?php page_footer(); }
 
-/* ---------- Cart ---------- */
 function page_cart($pdo) {
     require_login();
     $rows = cart_rows($pdo, user()['id']);
@@ -174,7 +169,6 @@ function page_cart($pdo) {
         </div>
     <?php endif; page_footer(); }
 
-/* ---------- Account (profile + order history) ---------- */
 function page_account($pdo) {
     require_login();
     $uid = user()['id']; $saved = false;
@@ -183,7 +177,7 @@ function page_account($pdo) {
         $name = trim($_POST['name'] ?? '');
         if ($name !== '') {
             $pdo->prepare('UPDATE users SET name=?, phone=?, address=? WHERE id=?')
-                ->execute([mb_substr($name, 0, 80), mb_substr(trim($_POST['phone'] ?? ''), 0, 30), mb_substr(trim($_POST['address'] ?? ''), 0, 255), $uid]);
+                    ->execute([mb_substr($name, 0, 80), mb_substr(trim($_POST['phone'] ?? ''), 0, 30), mb_substr(trim($_POST['address'] ?? ''), 0, 255), $uid]);
             $_SESSION['user']['name'] = $name; $saved = true;
         }
     }
@@ -237,7 +231,6 @@ function page_account($pdo) {
     </div>
     <?php page_footer(); }
 
-/* ---------- Login / register / logout ---------- */
 function page_login($pdo) {
     $next = safe_next($_GET['next'] ?? $_POST['next'] ?? '');
     if (user()) { header('Location: ' . $next); exit; }
@@ -291,7 +284,7 @@ function page_register($pdo) {
             if ($s->fetch()) $error = 'That email already has an account.';
             else {
                 $pdo->prepare('INSERT INTO users (name,email,password_hash) VALUES (?,?,?)')
-                    ->execute([mb_substr($name, 0, 80), $email, password_hash($pw, PASSWORD_DEFAULT)]);
+                        ->execute([mb_substr($name, 0, 80), $email, password_hash($pw, PASSWORD_DEFAULT)]);
                 session_regenerate_id(true);
                 $_SESSION['user'] = ['id' => (int)$pdo->lastInsertId(), 'name' => $name, 'role' => 'user'];
                 header('Location: ' . $next); exit;

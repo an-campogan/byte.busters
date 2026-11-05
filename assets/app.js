@@ -22,7 +22,6 @@ function toast(msg, isErr) {
 const setBag = n => { const b = $('#bagCount'); if (b) b.textContent = n; };
 const qtyFrom = btn => { const el = btn.dataset.qtyFrom && $(btn.dataset.qtyFrom); return el ? Math.max(1, parseInt(el.value) || 1) : 1; };
 
-/* Receipt overlay */
 function showReceipt(r) {
     const rows = r.items.map(i => `<div class="ri"><span>${esc(i.name)}</span><span>${peso(i.line)}</span><small>${i.qty} pcs × ${peso(i.price)}</small></div>`).join('');
     const pick = r.method === 'pickup';
@@ -48,7 +47,6 @@ const closeReceipt = () => { if (!$('#receiptOverlay').hidden) location.href = '
 $('#receiptOverlay').addEventListener('click', e => { if (e.target.id === 'receiptOverlay') closeReceipt(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReceipt(); });
 
-/* Cart page: apply server totals to the DOM */
 function applySummary(j) {
     setBag(j.count);
     if (!j.items.length) return location.reload();
@@ -70,24 +68,24 @@ async function setQty(row, qty) {
 document.addEventListener('click', async e => {
     const t = e.target.closest('button'); if (!t) return;
 
-    if (t.dataset.step !== undefined) {                       // +/- buttons (cart and product page)
+    if (t.dataset.step !== undefined) {
         const wrap = t.closest('.stepper'), input = $('.qty-input', wrap);
         const next = Math.max(1, Math.min(+input.max || 99, (parseInt(input.value) || 1) + +t.dataset.step));
         input.value = next;
         const row = t.closest('[data-row]'); if (row) setQty(row, next);
-    } else if (t.dataset.add) {                               // Add to bag
+    } else if (t.dataset.add) {
         const j = await api('api.php?a=cart', {action: 'add', product_id: +t.dataset.add, qty: qtyFrom(t)});
         if (j.ok) { setBag(j.count); toast('Added to your bag'); } else if (!j.login) toast(j.error, true);
-    } else if (t.dataset.buy) {                               // Buy now -> receipt
+    } else if (t.dataset.buy) {
         t.disabled = true;
         const j = await api('api.php?a=checkout', {buy_now: {product_id: +t.dataset.buy, qty: qtyFrom(t)}, method: 'delivery'});
         t.disabled = false;
         if (j.ok) showReceipt(j.receipt); else if (!j.login) toast(j.error, true);
-    } else if (t.dataset.remove !== undefined) {              // Remove row
+    } else if (t.dataset.remove !== undefined) {
         const row = t.closest('[data-row]');
         const j = await api('api.php?a=cart', {action: 'remove', product_id: +row.dataset.row});
         if (j.ok) applySummary(j);
-    } else if (t.id === 'checkout') {                         // Proceed to checkout -> receipt
+    } else if (t.id === 'checkout') {
         t.disabled = true;
         const j = await api('api.php?a=checkout', {method: $('#method').value});
         t.disabled = false;
@@ -95,7 +93,7 @@ document.addEventListener('click', async e => {
     }
 });
 
-document.addEventListener('change', e => {                  // typing a quantity directly
+document.addEventListener('change', e => {
     const input = e.target.closest('.qty-input'), row = input && input.closest('[data-row]');
     if (!row) return;
     input.value = Math.max(1, Math.min(+input.max || 99, parseInt(input.value) || 1));
