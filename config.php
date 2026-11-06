@@ -9,6 +9,15 @@ const CATEGORIES = ['Microcontrollers', 'Sensors', 'Passives', 'Prototyping', 'K
 const PICKUP_POINT = 'Byte Busters pickup counter, Davao City';
 const DISCOUNT_MIN = 1000;
 const DISCOUNT_RATE = 0.05;
+const SHOP_ADDRESS = 'Davao City, Philippines';
+const SHOP_HOURS   = 'Mon to Sat, 9:00 AM to 6:00 PM';
+const SHOP_EMAIL   = 'welsome@bytebusters.local';
+const SHOP_PHONE   = '+63 900 000 0000';
+const SOCIALS = [
+        'Facebook'  => 'https://www.facebook.com/login',
+        'Instagram' => 'https://www.instagram.com/accounts/login/',
+        'TikTok'    => 'https://www.tiktok.com/login',
+];
 
 try {
     $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4', DB_USER, DB_PASS, [
@@ -109,23 +118,24 @@ function page_header($title) {
         <link rel="stylesheet" href="assets/style.css">
     </head>
     <body>
-    <header class="site-header"><div class="wrap bar">
+    <header class="site-header">
+        <div class="wrap bar">
             <a class="logo" href="index.php"><img src="assets/logo.svg" alt="">byte<em>.</em>busters</a>
-            <nav class="nav" aria-label="Main">
-                <a href="index.php?page=products">Components</a>
-                <a href="index.php?page=products&cat=Kits">Project kits</a>
-                <?php if ($u && $u['role'] === 'admin'): ?><a href="admin.php">Admin</a><?php endif; ?>
-            </nav>
-            <form class="search" action="index.php" role="search">
-                <input type="hidden" name="page" value="products">
-                <input type="search" name="q" placeholder="Search parts" aria-label="Search parts" value="<?= e($_GET['q'] ?? '') ?>">
-            </form>
+
+            <div class="menu" id="menuPanel">
+                <nav class="nav" aria-label="Main">
+                    <a href="index.php?page=products">Components</a>
+                    <a href="index.php?page=products&cat=Kits">Project kits</a>
+                    <?php if ($u && $u['role'] === 'admin'): ?><a href="admin.php">Admin</a><?php endif; ?>
+                </nav>
+                <form class="search" action="index.php" role="search">
+                    <input type="hidden" name="page" value="products">
+                    <input type="search" name="q" placeholder="Search parts" aria-label="Search parts" value="<?= e($_GET['q'] ?? '') ?>">
+                </form>
+            </div>
+
             <div class="actions">
                 <?php if ($u): ?>
-                    <a class="bag" href="index.php?page=cart" aria-label="Cart">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 7H6"/></svg>
-                        <span id="bagCount"><?= cart_count($pdo) ?></span>
-                    </a>
                     <a class="icon-btn" href="index.php?page=account" aria-label="Account" title="Account">
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
                     </a>
@@ -137,18 +147,83 @@ function page_header($title) {
                     </form>
                 <?php else: ?>
                     <a class="icon-btn" href="index.php?page=login" aria-label="Log in" title="Log in">
-                        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2-2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg>
                     </a>
                 <?php endif; ?>
+                <a class="bag" href="index.php?page=cart" aria-label="Cart">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 7H6"/></svg>
+                    <span id="bagCount"><?= cart_count($pdo) ?></span>
+                </a>
             </div>
+
+            <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menuPanel">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
     <main class="wrap main">
 <?php }
 
-function page_footer() { ?>
+function page_footer() {
+    $icons = [
+            'Facebook'  => '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+            'Instagram' => '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4z"/><path d="M17.5 6.5h.01"/>',
+            'TikTok'    => '<path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>',
+    ]; ?>
     </main>
-    <footer class="site-footer"><div class="wrap">byte.busters · Components for students and hobbyists</div></footer>
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a class="logo" href="index.php"><img src="assets/logo.svg" alt="">byte<em>.</em>busters</a>
+                    <p>Electronics parts for students and hobbyists. Resistors, breadboards, Arduino boards and ESP32s, ready when your build is.</p>
+                    <div class="socials">
+                        <?php foreach (SOCIALS as $name => $url): ?>
+                            <a class="social" href="<?= e($url) ?>" target="_blank" rel="noopener" aria-label="<?= e($name) ?>" title="<?= e($name) ?>">
+                                <svg viewBox="0 0 24 24"><?= $icons[$name] ?? '' ?></svg>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <nav aria-label="Shop">
+                    <h3>Shop</h3>
+                    <ul>
+                        <li><a href="index.php?page=products">All components</a></li>
+                        <?php foreach (CATEGORIES as $c): ?>
+                            <li><a href="index.php?page=products&cat=<?= urlencode($c) ?>"><?= e($c) ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav>
+
+                <nav aria-label="Customer">
+                    <h3>Customer</h3>
+                    <ul>
+                        <li><a href="index.php?page=account">My account</a></li>
+                        <li><a href="index.php?page=account">Order history</a></li>
+                        <li><a href="index.php?page=cart">My bag</a></li>
+                        <li><a href="index.php?page=register">Create an account</a></li>
+                    </ul>
+                </nav>
+
+                <div>
+                    <h3>Visit us</h3>
+                    <ul class="details">
+                        <li><?= e(SHOP_ADDRESS) ?></li>
+                        <li><?= e(SHOP_HOURS) ?></li>
+                        <li><a href="mailto:<?= e(SHOP_EMAIL) ?>"><?= e(SHOP_EMAIL) ?></a></li>
+                        <li><a href="tel:<?= e(preg_replace('/[^+\d]/', '', SHOP_PHONE)) ?>"><?= e(SHOP_PHONE) ?></a></li>
+                        <li>Pickup point: <?= e(PICKUP_POINT) ?></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© <?= date('Y') ?> byte.busters. All rights reserved.</span>
+                <span>Delivery in about 3 days · Pickup ready the next day</span>
+            </div>
+        </div>
+    </footer>
     <div id="receiptOverlay" class="overlay" hidden><div class="receipt" role="dialog" aria-modal="true" aria-label="Order receipt"></div></div>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <script src="assets/app.js"></script>

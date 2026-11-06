@@ -64,20 +64,20 @@ CREATE TABLE order_items (
 );
 
 INSERT INTO products (name, category, description, price, stock) VALUES
-                                                                     ('1 kΩ Resistor Pack', 'Passives', 'Pack of 10 carbon film resistors, 1/4 W, 5% tolerance.', 35, 200),
-                                                                     ('220 Ω Resistor Pack', 'Passives', 'Pack of 10 carbon film resistors, 1/4 W. The usual pick for LEDs on 5 V.', 35, 200),
-                                                                     ('Ceramic Capacitor Assortment', 'Passives', 'Mixed ceramic capacitors from 10 pF to 100 nF.', 150, 60),
-                                                                     ('Mini Breadboard', 'Prototyping', '400 tie points, no soldering needed.', 89, 80),
-                                                                     ('Jumper Wire Set', 'Prototyping', '40 pieces, male to male, 20 cm.', 120, 90),
-                                                                     ('Assorted LEDs', 'Prototyping', '50 pieces, 5 mm, mixed colors.', 95, 120),
-                                                                     ('NE555 Timer IC', 'Microcontrollers', 'DIP-8 timer IC for astable and monostable circuits.', 48, 150),
-                                                                     ('Arduino Uno R3', 'Microcontrollers', 'ATmega328P board with USB cable, 14 digital I/O pins.', 650, 25),
-                                                                     ('ESP32 DevKit', 'Microcontrollers', 'Dual-core Wi-Fi and Bluetooth board, 30 pins.', 420, 30),
-                                                                     ('DHT22 Temperature and Humidity Sensor', 'Sensors', 'Digital sensor, 0 to 100% humidity, -40 to 80 °C.', 280, 40),
-                                                                     ('HC-SR04 Ultrasonic Sensor', 'Sensors', 'Distance sensor, 2 cm to 400 cm.', 110, 55),
-                                                                     ('Soil Moisture Sensor', 'Sensors', 'Analog and digital output for plant monitoring.', 85, 45),
-                                                                     ('LED Traffic Light Kit', 'Kits', 'Three LEDs, resistors, breadboard and wiring guide.', 380, 20),
-                                                                     ('Temperature Monitor Kit', 'Kits', 'Arduino-compatible kit with sensor, LCD and code.', 890, 12);
+                             ('1 kΩ Resistor Pack', 'Passives', 'Pack of 10 carbon film resistors, 1/4 W, 5% tolerance.', 35, 200),
+                             ('220 Ω Resistor Pack', 'Passives', 'Pack of 10 carbon film resistors, 1/4 W. The usual pick for LEDs on 5 V.', 35, 200),
+                             ('Ceramic Capacitor Assortment', 'Passives', 'Mixed ceramic capacitors from 10 pF to 100 nF.', 150, 60),
+                             ('Mini Breadboard', 'Prototyping', '400 tie points, no soldering needed.', 89, 80),
+                             ('Jumper Wire Set', 'Prototyping', '40 pieces, male to male, 20 cm.', 120, 90),
+                             ('Assorted LEDs', 'Prototyping', '50 pieces, 5 mm, mixed colors.', 95, 120),
+                             ('NE555 Timer IC', 'Microcontrollers', 'DIP-8 timer IC for astable and monostable circuits.', 48, 150),
+                             ('Arduino Uno R3', 'Microcontrollers', 'ATmega328P board with USB cable, 14 digital I/O pins.', 650, 25),
+                             ('ESP32 DevKit', 'Microcontrollers', 'Dual-core Wi-Fi and Bluetooth board, 30 pins.', 420, 30),
+                             ('DHT22 Temperature and Humidity Sensor', 'Sensors', 'Digital sensor, 0 to 100% humidity, -40 to 80 °C.', 280, 40),
+                             ('HC-SR04 Ultrasonic Sensor', 'Sensors', 'Distance sensor, 2 cm to 400 cm.', 110, 55),
+                             ('Soil Moisture Sensor', 'Sensors', 'Analog and digital output for plant monitoring.', 85, 45),
+                             ('LED Traffic Light Kit', 'Kits', 'Three LEDs, resistors, breadboard and wiring guide.', 380, 20),
+                             ('Temperature Monitor Kit', 'Kits', 'Arduino-compatible kit with sensor, LCD and code.', 890, 12);
 
 INSERT INTO users (name, email, password_hash, role) VALUES
     ('Admin', 'admin@bytebusters.local', '$2a$10$Rc3HxugsF8xXoAN7.GwoZeXI1RpjZVaMxqhKY2EZmuUfDfUpEf5cO', 'admin');

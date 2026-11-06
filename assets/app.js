@@ -99,3 +99,18 @@ document.addEventListener('change', e => {
     input.value = Math.max(1, Math.min(+input.max || 99, parseInt(input.value) || 1));
     setQty(row, +input.value);
 });
+
+(() => {
+    const btn = document.getElementById('menuBtn'), menu = document.getElementById('menuPanel');
+    if (!btn || !menu) return;
+    const set = open => {
+        menu.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', open);
+        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    btn.addEventListener('click', () => set(!menu.classList.contains('open')));
+    document.addEventListener('click', e => { if (!menu.contains(e.target) && !btn.contains(e.target)) set(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') set(false); });
+    menu.addEventListener('click', e => { if (e.target.closest('a')) set(false); });
+    matchMedia('(min-width: 961px)').addEventListener('change', e => { if (e.matches) set(false); });
+})();
